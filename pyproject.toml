@@ -134,6 +134,9 @@ tests = ["tests", "*/ruleenginex/tests"]
 fail_under = 90
 exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 
+[tool.coverage.xml]
+output = "coverage.xml"
+
 # --- Black Configuration ---
 [tool.black]
 target-version = ["py311"]
