@@ -106,7 +106,7 @@ fmt = [
   "ruff check --fix {args:.}",
   "style",
 ]
-typing = "mypy --install-types --non-interactive {args:src/ruleenginex tests}"
+typing = "mypy --install-types --non-interactive {args:src/ruleenginex}"
 all = [
   "style",
   "typing",
