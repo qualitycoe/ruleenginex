@@ -46,7 +46,7 @@ jobs:
         run: pip install hatch
 
       - name: Run Tests
-        run: hatch run dev:test-cov
+        run: hatch run test:run-coverage
 
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v3

@@ -137,6 +137,17 @@ exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
 [tool.coverage.xml]
 output = "coverage.xml"
 
+[tool.hatch.envs.test]
+dependencies = [
+  "coverage[toml]",
+  "pytest",
+  "pytest-cov",
+  "pytest-mock",
+]
+[tool.hatch.envs.test.scripts]
+run-coverage = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests --cov-report xml:coverage.xml"
+run = "run-coverage --no-cov"
+
 # --- Black Configuration ---
 [tool.black]
 target-version = ["py311"]
