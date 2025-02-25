@@ -55,25 +55,6 @@ jobs:
           file: ./coverage.xml
           fail_ci_if_error: true
 
-  benchmark:
-    name: Performance Benchmarking
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Install Hatch
-        run: pip install hatch
-
-      - name: Run Benchmarks
-        run: hatch run benchmark:run
-
   tag:
     name: Create Version Tag
     runs-on: ubuntu-latest
@@ -116,6 +97,5 @@ jobs:
 
       - name: Publish Package to PyPI
         env:
-          HATCH_INDEX_USER: ${{ secrets.PYPI_USERNAME }}
           HATCH_INDEX_AUTH: ${{ secrets.PYPI_PASSWORD }}
         run: hatch publish
