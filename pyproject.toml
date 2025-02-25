@@ -1,0 +1,172 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ruleenginex"
+dynamic = ["version"]
+description = "A versatile tool for [your description here]"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+authors = [{ name = "QualityCOE", email = "qualitycoe@outlook.com" }]
+keywords = ["tool", "automation", "python"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "hvac",
+  "Flask",
+  "PyYAML",
+  "Jinja2",
+  "jsonschema",
+  "jsonpath-ng",
+  "pytest",
+  "types-PyYAML",
+  "Flask-Caching",
+]
+
+[project.urls]
+Homepage = "https://ruleenginex.qualitycoe.com"
+Documentation = "https://github.com/qualitycoe/ruleenginex#readme"
+Issues = "https://github.com/qualitycoe/ruleenginex/issues"
+Source = "https://github.com/qualitycoe/ruleenginex"
+Changelog = "https://github.com/qualitycoe/ruleenginex/blob/main/CHANGELOG.md"
+
+[project.scripts]
+ruleenginex = "ruleenginex.cli:main"
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.0.0"
+version-scheme = "calver-by-date"
+raw-options = { tag_regex = "^(?:[\\w-]+-)?[vV]?(?P<version>\\d+(?:\\.\\d+){0,2}[^\\+])(?:\\+.)?$", normalize = false }
+
+# --- Matrix Environment for CI ---
+[[tool.hatch.envs.all.matrix]]
+python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+os = ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+# --- Default/Test Environment ---
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+extra-dependencies = [
+  "hvac",
+  "Flask",
+  "PyYAML",
+  "Jinja2",
+  "jsonschema",
+  "jsonpath-ng",
+  "types-PyYAML",
+  "Flask-Caching",
+]
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+# --- Lint Environment ---
+[tool.hatch.envs.lint]
+detached = true
+dependencies = [
+  "black>=23.1.0",
+  "ruff>=0.0.243",
+  "mypy>=1.0.0",
+]
+
+[tool.hatch.envs.benchmark]
+dependencies = [
+  "jsonpath-ng",  # Ensure JSONPath is installed
+  "memory-profiler",  # Optional: if you want to track memory usage
+]
+
+[tool.hatch.envs.benchmark.scripts]
+run = "python benchmarks/benchmark_rules.py"
+jsonpath = "python benchmarks/benchmark_jsonpath.py"
+profile = "python -m cProfile -s time benchmarks/benchmark_rules.py"
+
+[tool.hatch.envs.lint.scripts]
+style = [
+  "ruff check {args:.}",
+  "black --check --diff {args:.}",
+]
+fmt = [
+  "black {args:.}",
+  "ruff check --fix {args:.}",
+  "style",
+]
+typing = "mypy --install-types --non-interactive {args:src/ruleenginex tests}"
+all = [
+  "style",
+  "typing",
+]
+
+# --- Docs Environment ---
+[tool.hatch.envs.docs]
+dependencies = ["sphinx", "sphinx-rtd-theme"]
+
+[tool.hatch.envs.docs.scripts]
+build = "sphinx-build -b html docs docs/_build/html"
+
+# --- Coverage Configuration ---
+[tool.coverage.run]
+source_pkgs = ["ruleenginex", "tests"]
+branch = true
+parallel = true
+omit = ["src/ruleenginex/__about__.py"]
+
+[tool.coverage.paths]
+ruleenginex = ["src/ruleenginex", "*/ruleenginex/src/ruleenginex"]
+tests = ["tests", "*/ruleenginex/tests"]
+
+[tool.coverage.report]
+fail_under = 90
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+# --- Black Configuration ---
+[tool.black]
+target-version = ["py311"]
+line-length = 120
+skip-string-normalization = true
+
+# --- Ruff Configuration ---
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+lint.select = [
+  "A", "ARG", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "ISC",
+  "N", "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "T", "TID", "UP", "W", "YTT",
+]
+lint.ignore = [
+  "B027", "FBT003", "S104", "S105", "S106", "S107", "C901",
+  "PLR0911", "PLR0912", "PLR0913", "PLR0915", "F401", "ARG001"
+]
+lint.unfixable = ["F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ruleenginex"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*" = ["PLR2004", "S101", "TID252"]
