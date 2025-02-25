@@ -1,4 +1,5 @@
 import unittest
+
 from ruleenginex.constants import OperatorEnum
 from ruleenginex.rule import Rule
 

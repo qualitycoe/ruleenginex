@@ -5,12 +5,12 @@ build-backend = "hatchling.build"
 [project]
 name = "ruleenginex"
 dynamic = ["version"]
-description = "A versatile tool for [your description here]"
+description = "A versatile rule engine for evaluating JSON data with JSONPath and object path support."
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [{ name = "QualityCOE", email = "qualitycoe@outlook.com" }]
-keywords = ["tool", "automation", "python"]
+keywords = ["rule engine", "automation", "python", "jsonpath", "mocking"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3.8",
@@ -22,16 +22,12 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
+
+# Core dependencies required to run RuleEngineX
 dependencies = [
-  "hvac",
-  "Flask",
-  "PyYAML",
-  "Jinja2",
-  "jsonschema",
-  "jsonpath-ng",
-  "pytest",
-  "types-PyYAML",
-  "Flask-Caching",
+  "jsonschema",  # JSON validation
+  "jsonpath-ng", # JSONPath evaluation
+  "PyYAML",      # YAML parsing (if config support is needed)
 ]
 
 [project.urls]
@@ -55,28 +51,24 @@ raw-options = { tag_regex = "^(?:[\\w-]+-)?[vV]?(?P<version>\\d+(?:\\.\\d+){0,2}
 python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 os = ["ubuntu-latest", "windows-latest", "macos-latest"]
 
-# --- Default/Test Environment ---
-[tool.hatch.envs.default]
+# --- Development/Test Environment ---
+[tool.hatch.envs.dev]
 dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-]
-extra-dependencies = [
-  "hvac",
-  "Flask",
-  "PyYAML",
-  "Jinja2",
-  "jsonschema",
-  "jsonpath-ng",
-  "types-PyYAML",
-  "Flask-Caching",
+  "pytest",                 # Testing framework
+  "coverage[toml]",         # Test coverage tool
+  "mypy",                   # Type checking
+  "types-PyYAML",           # Type hints for PyYAML
+  "black",                  # Code formatting
+  "ruff",                   # Linting and auto-fixes
+  "flake8",                 # Code style enforcement
+  "pylint",                 # Static code analysis
 ]
 
-[tool.hatch.envs.default.scripts]
+[tool.hatch.envs.dev.scripts]
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [
-  "- coverage combine",
+  "coverage combine",
   "coverage report",
 ]
 cov = [
@@ -84,25 +76,25 @@ cov = [
   "cov-report",
 ]
 
-# --- Lint Environment ---
-[tool.hatch.envs.lint]
-detached = true
-dependencies = [
-  "black>=23.1.0",
-  "ruff>=0.0.243",
-  "mypy>=1.0.0",
-]
-
+# --- Benchmarking Environment ---
 [tool.hatch.envs.benchmark]
 dependencies = [
   "jsonpath-ng",  # Ensure JSONPath is installed
-  "memory-profiler",  # Optional: if you want to track memory usage
+  "memory-profiler",  # Track memory usage (optional)
 ]
 
 [tool.hatch.envs.benchmark.scripts]
 run = "python benchmarks/benchmark_rules.py"
 jsonpath = "python benchmarks/benchmark_jsonpath.py"
 profile = "python -m cProfile -s time benchmarks/benchmark_rules.py"
+
+# --- Linting Environment ---
+[tool.hatch.envs.lint]
+dependencies = [
+  "black",
+  "ruff",
+  "mypy",
+]
 
 [tool.hatch.envs.lint.scripts]
 style = [
@@ -120,7 +112,7 @@ all = [
   "typing",
 ]
 
-# --- Docs Environment ---
+# --- Documentation Environment ---
 [tool.hatch.envs.docs]
 dependencies = ["sphinx", "sphinx-rtd-theme"]
 
