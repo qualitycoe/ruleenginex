@@ -10,7 +10,7 @@ mypy==1.10.0            # Static type checking
 types-PyYAML==6.0.12.20241230  # Type hints for PyYAML
 
 # Linting & Formatting
-black==23.1.0           # Code formatting
+black==24.3.0           # Code formatting
 ruff==0.0.243           # Fast linter & code fixer
 flake8==6.1.0           # Linter
 pylint==3.1.0           # Linter for deeper analysis
