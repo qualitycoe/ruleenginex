@@ -9,8 +9,8 @@ class TestScenarioComplex(unittest.TestCase):
         scenario = Scenario(
             scenario_name="Admin Access",
             rules_data=[
-                {"target": "body", "prop": "role", "operator": OperatorEnum.EQUALS, "value": "admin"},
-                {"target": "body", "prop": "authenticated", "operator": OperatorEnum.EQUALS, "value": True},
+                {"target": "body", "prop": "role", "op": "EQUALS", "value": "admin"},
+                {"target": "body", "prop": "authenticated", "op": "EQUALS", "value": True},
             ],
             response={"status": 200, "data": {"message": "Welcome, Admin!"}},
         )

@@ -19,13 +19,20 @@ class Rule:
         self,
         target: str,
         prop: str,
-        operator: OperatorEnum,
+        op: str,
         value: Any,
         invert: bool = False,  # noqa: FBT001, FBT002
     ):
+        op = op.strip().upper()
+
+        try:
+            operator_enum = OperatorEnum[op]
+        except KeyError:
+            raise UnsupportedOperatorError(op)  # noqa: B904
+
         self.target = target
         self.prop = prop
-        self.operator = OperatorEvaluator(operator, value)
+        self.operator = OperatorEvaluator(operator_enum, value)
         self.invert = invert
 
         # Validate target and operator
