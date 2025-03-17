@@ -3,7 +3,7 @@ from functools import reduce
 from operator import getitem
 from typing import Any
 
-from jsonpath_ng import parse
+from jsonpath_ng.ext import parse
 
 from ruleenginex.constants import TARGET_OPERATOR_MAP, OperatorEnum
 from ruleenginex.exceptions import InvalidTargetError, JsonPathParsingError, UnsupportedOperatorError
@@ -19,13 +19,20 @@ class Rule:
         self,
         target: str,
         prop: str,
-        operator: OperatorEnum,
+        op: str,
         value: Any,
         invert: bool = False,  # noqa: FBT001, FBT002
     ):
+        op = op.strip().upper()
+
+        try:
+            operator_enum = OperatorEnum[op]
+        except KeyError as ke:
+            raise UnsupportedOperatorError(op) from ke
+
         self.target = target
         self.prop = prop
-        self.operator = OperatorEvaluator(operator, value)
+        self.operator = OperatorEvaluator(operator_enum, value)
         self.invert = invert
 
         # Validate target and operator

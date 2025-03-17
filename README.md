@@ -65,7 +65,7 @@ hatch run dev:test
 from ruleenginex.rule import Rule
 from ruleenginex.constants import OperatorEnum
 
-rule = Rule(target="body", prop="user.name", operator=OperatorEnum.EQUALS, value="Alice")
+rule = Rule(target="body", prop="user.name", op="equals", value="Alice")
 
 request_data = {"body": {"user": {"name": "Alice"}}}
 print(rule.evaluate(request_data))  # Output: True
@@ -104,13 +104,13 @@ rule = Rule(target="body", prop="order_id", operator=OperatorEnum.REGEX, value=r
 ### 🔹 **Webhook & Event Processing**
 Check if an event payload has `status = "approved"`:
 ```python
-rule = Rule(target="body", prop="event.status", operator=OperatorEnum.EQUALS, value="approved")
+rule = Rule(target="body", prop="event.status", op="equals", value="approved")
 ```
 
 ### 🔹 **Automated Workflow Triggers**
 Trigger workflows based on `priority = high`:
 ```python
-rule = Rule(target="body", prop="ticket.priority", operator=OperatorEnum.EQUALS, value="high")
+rule = Rule(target="body", prop="ticket.priority", op="equals", value="high")
 ```
 
 ---

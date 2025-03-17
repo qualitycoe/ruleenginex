@@ -4,8 +4,8 @@ from ruleenginex.constants import TARGET_OPERATOR_MAP
 class UnsupportedOperatorError(Exception):
     """Exception raised when an unsupported operator is used."""
 
-    def __init__(self, operator: str):
-        super().__init__(f"Unsupported operator: {operator}")
+    def __init__(self, op: str):
+        super().__init__(f"Unsupported operator: {op}")
 
 
 class RuleValidationError(Exception):
