@@ -3,7 +3,7 @@ from functools import reduce
 from operator import getitem
 from typing import Any
 
-from jsonpath_ng import parse
+from jsonpath_ng.ext import parse
 
 from ruleenginex.constants import TARGET_OPERATOR_MAP, OperatorEnum
 from ruleenginex.exceptions import InvalidTargetError, JsonPathParsingError, UnsupportedOperatorError
@@ -27,8 +27,8 @@ class Rule:
 
         try:
             operator_enum = OperatorEnum[op]
-        except KeyError:
-            raise UnsupportedOperatorError(op)  # noqa: B904
+        except KeyError as ke:
+            raise UnsupportedOperatorError(op) from ke
 
         self.target = target
         self.prop = prop

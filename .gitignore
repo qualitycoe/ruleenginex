@@ -79,6 +79,7 @@ dmypy.json
 .ruff_cache/
 benchmarks/
 output.txt
+output.txt.bkp
 
 # IDEs and editors
 .vscode/
