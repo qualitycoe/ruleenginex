@@ -8,7 +8,7 @@ class TestScenarioComplex(unittest.TestCase):
     def test_scenario_with_multiple_conditions(self):
         scenario = Scenario(
             scenario_name="Admin Access",
-            rules_data=[
+            rules=[
                 {"target": "body", "prop": "role", "op": "EQUALS", "value": "admin"},
                 {"target": "body", "prop": "authenticated", "op": "EQUALS", "value": True},
             ],

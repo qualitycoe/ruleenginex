@@ -4,9 +4,9 @@ from ruleenginex.rules import Rules
 class Scenario:
     """Represents a scenario containing rules and a response."""
 
-    def __init__(self, scenario_name: str, rules_data: list[dict], response: dict):
+    def __init__(self, scenario_name: str, rules: list[dict], response: dict):
         self.scenario_name = scenario_name
-        self.rules = Rules(rules_data)
+        self.rules = Rules(rules)
         self.response = response
 
     def evaluate(self, request_data: dict) -> bool:
