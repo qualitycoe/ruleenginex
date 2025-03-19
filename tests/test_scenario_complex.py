@@ -1,6 +1,5 @@
 import unittest
 
-from ruleenginex.constants import OperatorEnum
 from ruleenginex.scenario import Scenario
 
 

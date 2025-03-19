@@ -1,3 +1,4 @@
+import logging
 import re
 from functools import reduce
 from operator import getitem
@@ -8,6 +9,8 @@ from jsonpath_ng.ext import parse
 from ruleenginex.constants import TARGET_OPERATOR_MAP, OperatorEnum
 from ruleenginex.exceptions import InvalidTargetError, JsonPathParsingError, UnsupportedOperatorError
 from ruleenginex.operatorx import OperatorEvaluator
+
+logger = logging.getLogger(__name__)
 
 
 class Rule:
@@ -38,6 +41,10 @@ class Rule:
         # Validate target and operator
         self._validate_target()
         self._validate_operator()
+
+        logger.debug(
+            "Initialized Rule with target=%s, prop=%s, op=%s, value=%r, invert=%s", target, prop, op, value, invert
+        )
 
     def _validate_target(self):
         """Validates that the target is supported."""
@@ -77,6 +84,7 @@ class Rule:
 
     def evaluate(self, request_data: dict[str, Any]) -> bool:
         """Evaluates the rule using the OperatorEvaluator class."""
+        logger.debug("Evaluating Rule against request_data=%s", request_data)
         target_data = request_data.get(self.target, {})  # Get the top-level target data
 
         # If property is empty or None, use full target data
@@ -87,5 +95,19 @@ class Rule:
         else:
             actual_value = self._get_object_path_value(target_data, self.prop)
 
+        # Print out details before applying operator
+        logger.debug(
+            "Rule extracted value=%s from target=%s, prop=%s; applying operator=%s",
+            actual_value,
+            self.target,
+            self.prop,
+            self.operator.operator,
+        )
+
         result = self.operator.apply(actual_value)
-        return not result if self.invert else result
+        final_result = not result if self.invert else result
+
+        logger.debug(
+            "Rule evaluation -> operator result=%s, invert=%s => final_result=%s", result, self.invert, final_result
+        )
+        return final_result

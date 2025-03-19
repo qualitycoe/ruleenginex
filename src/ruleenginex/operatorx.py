@@ -1,3 +1,4 @@
+import logging
 import re
 from typing import Any
 
@@ -5,6 +6,8 @@ from jsonschema import ValidationError, validate
 
 from ruleenginex.constants import OperatorEnum
 from ruleenginex.exceptions import UnsupportedOperatorError
+
+logger = logging.getLogger(__name__)
 
 
 class OperatorEvaluator:
@@ -16,6 +19,14 @@ class OperatorEvaluator:
 
     def apply(self, actual_value: Any) -> bool:
         """Applies the operator logic to the actual value."""
+
+        logger.debug(
+            "Applying operator=%s on actual_value=%r with expected_value=%r",
+            self.operator,
+            actual_value,
+            self.expected_value,
+        )
+
         match self.operator:
             case OperatorEnum.EQUALS:
                 return actual_value == self.expected_value

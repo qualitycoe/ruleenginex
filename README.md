@@ -39,12 +39,12 @@
 
 ## 🔥 Features
 
-✔ **Supports JSONPath and Dot-Notation Paths** for flexible data extraction  
-✔ **Multiple Operators** including `EQUALS`, `REGEX_CASE_INSENSITIVE`, `ARRAY_INCLUDES`, `VALID_JSON_SCHEMA`  
-✔ **Scenario-Based** approach for grouping multiple rules under one logical outcome  
-✔ **Extensible**: Easy to customize or add new operators  
-✔ **Lightweight and Fast** — optimized for quick evaluations  
-✔ **Benchmark Scripts** for testing performance at scale  
+✔ **Supports JSONPath and Dot-Notation Paths** for flexible data extraction
+✔ **Multiple Operators** including `EQUALS`, `REGEX_CASE_INSENSITIVE`, `ARRAY_INCLUDES`, `VALID_JSON_SCHEMA`
+✔ **Scenario-Based** approach for grouping multiple rules under one logical outcome
+✔ **Extensible**: Easy to customize or add new operators
+✔ **Lightweight and Fast** — optimized for quick evaluations
+✔ **Benchmark Scripts** for testing performance at scale
 ✔ **Easy Integration** with other Python projects (e.g., mocking tools, test frameworks)
 
 ---
@@ -231,7 +231,7 @@ python benchmarks/benchmark_jsonpath.py
 python benchmarks/benchmark_rules.py
 ```
 
-**Example**: `benchmark_rules.py` tests large data sets of 100,000+ items to measure how quickly a rule like `ARRAY_INCLUDES` can evaluate.  
+**Example**: `benchmark_rules.py` tests large data sets of 100,000+ items to measure how quickly a rule like `ARRAY_INCLUDES` can evaluate.
 
 ```python
 import time
@@ -256,12 +256,12 @@ if __name__ == "__main__":
 
 ## 📖 License
 
-RuleEngineX is distributed under the **MIT License**.  
+RuleEngineX is distributed under the **MIT License**.
 See the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 📬 Contact
 
-- **Issues & Questions**: Please open a GitHub issue at [RuleEngineX Issues](https://github.com/qualitycoe/ruleenginex/issues).  
+- **Issues & Questions**: Please open a GitHub issue at [RuleEngineX Issues](https://github.com/qualitycoe/ruleenginex/issues).
 - **Email**: For direct inquiries, contact `qualitycoe@outlook.com`.
